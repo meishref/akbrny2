@@ -1,0 +1,177 @@
+@font-face {
+    font-family: DroidKufiBold;
+    src: url(../fonts/DroidKufiBold.ttf);
+}
+@font-face {
+    font-family: DroidKufiRegular;
+    src: url(../fonts/DroidKufiRegular.ttf);
+}
+
+body{
+    font-family:DroidKufiRegular;
+
+}
+
+.h1, .h2, .h3, .h4, h1, h2, h3, h4, h5, h6 {
+    font-family: DroidKufiBold;
+    font-weight: 300;
+}
+
+
+
+.form-group.label-floating.is-focused label.control-label, .form-group.label-floating:not(.is-empty) label.control-label, .form-group.label-static label.control-label {
+    top: -30px;
+    right: 0;
+    font-size: 12px;
+    line-height: 1.07142857;
+}
+
+ 
+	.checkbox .checkbox-material .check:before, label.checkbox-inline .checkbox-material .check:before {
+    position: absolute;
+    content: "";
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    display: block;
+    margin-top: -4px;
+    margin-right: 10px;
+    width: 0;
+    height: 0; 
+} 
+.checkbox .checkbox-material .check, label.checkbox-inline .checkbox-material .check {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #009688;
+    border-radius: 2px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+/* new Style */
+.intro{
+
+    background-color: #9c27b0;
+    text-align: center;
+    min-height: 300px;
+    color: #ffffff;
+    margin-bottom: 10px;
+
+
+}
+
+.intro h1{
+    font-weight: bold;
+    font-family: DroidKufiBold;
+}
+
+.w-55 {
+    width: 55%!important;
+}
+
+
+/* why akbrny ? */
+
+.intro2{
+
+    background-color: #ffffff;
+    text-align: center;
+    min-height: 300px;
+    color: #000000;
+    margin-bottom: 10px;
+
+}
+
+.intro2 h1{
+    font-weight: bold;
+    font-family: DroidKufiBold;
+}
+
+/* How it work ? */
+
+.intro3{
+
+    background-color: #10ac84;
+    text-align: center;
+    min-height: 300px;
+    color: #ffffff;
+    margin-bottom: 10px;
+
+
+}
+
+.intro3 h1{
+    font-weight: bold;
+    font-family: DroidKufiBold;
+}
+
+
+/* footer */
+footer{
+    background-color: #00aa9a;
+    padding: 10px;
+    color: #ffffff;
+
+
+}
+
+footer a{
+    color: #ffffff;
+    text-underline: none;
+}
+
+
+footer a:hover ,a:focus{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+footer ul li{
+    padding: 3px;
+}
+
+.btn-social{
+    font-size: 30px;
+}
+
+
+/* Profile */
+.profile-img{
+	margin-top:-100px;
+}
+
+.profile-num{
+	padding:7px;
+	margin:10px;
+ 	
+	
+}
+
+
+.MsgUser {
+    background: #4FC3F7;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.post_content3 {
+    padding: 20px;
+    background: #fff;
+    border-left: 1px solid #89C4F4;
+    border-right: 1px solid #89C4F4;
+    border-bottom: 1px solid #89C4F4;
+    border-radius: 0px 0px 5px 5px;
+}
+
+/* Global */
+hr {
+    margin-top: 25px;
+    margin-bottom:20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
