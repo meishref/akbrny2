@@ -1,11 +1,69 @@
-/node_modules
+# Laravel / PHP
+/vendor/
+/node_modules/
 /public/hot
 /public/storage
-/storage/*.key
-/vendor
+
+# Environment (never commit secrets)
 .env
+.env.*
+!.env.example
+
+# PHPUnit / testing artifacts
 .phpunit.result.cache
+.phpunit.cache/
+/coverage/
+
+# Storage (generated runtime data)
+/storage/*.key
+/storage/app/*
+!/storage/app/.gitignore
+!/storage/app/public/
+/storage/app/public/*
+!/storage/app/public/.gitignore
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+!/storage/framework/cache/data/
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# Bootstrap cache (compiled manifests)
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+# NPM / Yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Homestead
 Homestead.json
 Homestead.yaml
-npm-debug.log
-yarn-error.log
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local database dumps / archives (do not commit)
+*.sql
+*.sql.gz
+*.dump
+
+# Optional: local user-uploaded profile images (runtime data)
+# Uncomment if you do not want to version user uploads:
+# /public/images/profile/img_*.png

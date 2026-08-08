@@ -5,55 +5,42 @@ namespace App\Http\Controllers\Ajax;
 use App\Answer;
 use App\Post;
 use App\User;
-use Faker\Provider\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Validator;
-use File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class AjaxController extends Controller
 {
 
         function checkEmail(Request $request)
         {
-            if($request->get('email'))
-            {
+            $output = '';
+
+            if ($request->get('email')) {
                 $email = $request->get('email');
 
-                $data = DB::table("users")
+                $data = DB::table('users')
                     ->where('email', $email)
                     ->count();
-                if($data > 0)
-                {
-                    echo 'not_unique';
-                }
-                else
-                {
-                    echo 'unique';
-                }
+
+                $output .= $data > 0 ? 'not_unique' : 'unique';
             }
 
-            if($request->get('username'))
-            {
+            if ($request->get('username')) {
                 $username = $request->get('username');
 
-                $data = DB::table("users")
+                $data = DB::table('users')
                     ->where('username', $username)
                     ->count();
-                if($data > 0)
-                {
-                    echo 'not_unique';
-                }
-                else
-                {
-                    echo 'unique';
-                }
+
+                $output .= $data > 0 ? 'not_unique' : 'unique';
             }
 
-
+            return response($output);
         }
 
     function replyMessage(Request $request)
@@ -613,7 +600,7 @@ class AjaxController extends Controller
     public function siteSearch(Request $request){
 
         $query= $request->get('query');
-
+        $data = collect();
 
         if($query != '')
         {
@@ -625,7 +612,7 @@ class AjaxController extends Controller
 
         }
         $output='';
-        $total_row = count($data) ;
+        $total_row = $data->count();
 
        // $output.=' '.$total_row;
 

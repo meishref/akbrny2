@@ -6,17 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    public $timestamps = true;
-
-    public function post() {
-        return $this->belongsTo('App\Post');
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 
-
-
-    function user(){
-        return $this->belongsTo('App\User');
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
-
-
 }

@@ -155,10 +155,12 @@ if($user->image==null){
                                         <?php
                                         $answer_select=0;
 
-                                        if(auth()->check())
-                                            if(auth()->user()->answers()->where('post_id','=',$post->id)->first() !=null){
-                                            $answer_select=auth()->user()->answers()->where('post_id','=',$post->id)->first()->body;
+                                        if(auth()->check()) {
+                                            $viewerAnswer = auth()->user()->answers()->where('post_id','=',$post->id)->first();
+                                            if($viewerAnswer != null){
+                                                $answer_select = $viewerAnswer->body;
                                             }
+                                        }
                                         ?>
 
                                         <header class="text-right">
