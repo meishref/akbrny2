@@ -47,6 +47,18 @@ return [
             'report' => false,
         ],
 
+        /*
+         * Profile images served at /images/profile/{filename} (legacy URL preserved).
+         */
+        'profile_images' => [
+            'driver' => 'local',
+            'root' => public_path('images/profile'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/images/profile',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -4,13 +4,13 @@ namespace App\Services;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class UserAccountService
 {
     public function __construct(
         private readonly EmailAvailabilityService $emailAvailability,
+        private readonly ProfileImageStorage $profileImages,
     ) {}
 
     public function updateProfile(int $userId, string $name, string $email, ?string $textProfile): array
@@ -50,26 +50,18 @@ class UserAccountService
 
     public function updateProfileImage(User $user, string $dataUri): array
     {
-        $imageArray1 = explode(';', $dataUri);
-        $imageArray2 = explode(',', $imageArray1[1]);
-        $base64 = base64_decode($imageArray2[1]);
+        $imageName = $this->profileImages->storeFromDataUri($dataUri, $user->id);
 
-        $imageName = 'img_'.time().$user->id.'.png';
-        $path = public_path().'/images/profile/';
-        $oldImage = $user->image;
-
-        $success = file_put_contents($path.$imageName, $base64);
-
-        if (! $success) {
+        if ($imageName === null) {
             return ['error' => 'حدث خطاء , الرجاء المحاولة لاحقا'];
         }
+
+        $oldImage = $user->image;
 
         $user->image = $imageName;
         $user->save();
 
-        if ($oldImage) {
-            File::delete($path.$oldImage);
-        }
+        $this->profileImages->delete($oldImage);
 
         return ['success' => ' تم تحديث الصورة بنجاح'];
     }
