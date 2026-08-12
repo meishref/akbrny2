@@ -156,7 +156,7 @@ if($user->image==null){
                                         $answer_select=0;
 
                                         if(auth()->check()) {
-                                            $viewerAnswer = auth()->user()->answers()->where('post_id','=',$post->id)->first();
+                                            $viewerAnswer = ($viewerAnswersByPostId ?? collect())->get($post->id);
                                             if($viewerAnswer != null){
                                                 $answer_select = $viewerAnswer->body;
                                             }

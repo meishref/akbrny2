@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Post;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
                 $count = 0;
 
                 if (Auth::check()) {
-                    $count = DB::table('posts')
+                    $count = Post::query()
                         ->where('user_id', '=', auth()->id())
                         ->where('is_read', '=', 0)
                         ->where('type', '=', 0)

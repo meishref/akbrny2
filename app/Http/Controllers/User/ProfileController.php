@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Answer;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -29,13 +30,31 @@ class ProfileController extends Controller
         $polls = $allPosts->where('type', 1);
         $posts_polls = $allPosts->where('is_public', 1)->sortByDesc('id')->values();
 
+        $viewerAnswersByPostId = collect();
+        if (auth()->check()) {
+            $pollIds = $allPosts->where('type', 1)->pluck('id');
+            if ($pollIds->isNotEmpty()) {
+                $viewerAnswersByPostId = Answer::query()
+                    ->where('user_id', auth()->id())
+                    ->whereIn('post_id', $pollIds)
+                    ->get()
+                    ->keyBy('post_id');
+            }
+        }
+
         if(!session()->has($username)){
             session([$username => 'true']);
             $user->visitors=$user->visitors+1;
             $user->save();
         }
 
-        return View('user.profile')->with(['user'=>$user,'posts'=>$posts,'posts_polls'=>$posts_polls,'polls'=>$polls]);
+        return View('user.profile')->with([
+            'user' => $user,
+            'posts' => $posts,
+            'posts_polls' => $posts_polls,
+            'polls' => $polls,
+            'viewerAnswersByPostId' => $viewerAnswersByPostId,
+        ]);
     }
 
 
