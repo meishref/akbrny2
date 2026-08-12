@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Answer;
+use App\Jobs\SendFcmNotificationJob;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -104,7 +105,11 @@ class ProfileController extends Controller
         $post->save();
 
         if($user->active_notification==1 && $user->token_notification!=null){
-            $this->sendNotification($user->token_notification,"لديك رسالة جديدة","لديك رسالة جديدة");
+            SendFcmNotificationJob::dispatch(
+                $user->token_notification,
+                'لديك رسالة جديدة',
+                'لديك رسالة جديدة',
+            );
         }
 
         return back()->with( 'msg','تم إرسال الرسالة بنجاح , شكرا لك .');
@@ -113,7 +118,7 @@ class ProfileController extends Controller
 
     public function sendNotification($notification_token,$title,$body){
 
-        app(\App\Services\FirebaseCloudMessaging::class)->sendDataNotification(
+        SendFcmNotificationJob::dispatch(
             $notification_token,
             $title,
             $body,

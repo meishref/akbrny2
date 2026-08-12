@@ -107,6 +107,12 @@ class FirebaseCloudMessaging
             ]);
 
         if (! $response->successful()) {
+            $body = $response->json();
+            Log::warning('Firebase FCM HTTP v1 send request failed.', [
+                'status' => $response->status(),
+                'error' => is_array($body) ? ($body['error']['message'] ?? $body) : $response->body(),
+            ]);
+
             throw new \RuntimeException('Firebase FCM HTTP v1 send request failed.');
         }
     }
