@@ -8,6 +8,7 @@ use App\Http\Controllers\Ajax\QuestionController;
 use App\Http\Controllers\Ajax\SearchController as AjaxSearchController;
 use App\Http\Controllers\Ajax\UserAccountController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UsersController;
 use Illuminate\Support\Facades\Auth;
@@ -24,30 +25,48 @@ Route::prefix('user')->middleware('auth')->group(function () {
 });
 
 Route::get('{username?}', [ProfileController::class, 'getUser'])->name('user.getUser');
-Route::post('{username?}', [ProfileController::class, 'senMessageToUser'])->name('profile.senMessageToUser');
+Route::post('{username?}', [ProfileController::class, 'senMessageToUser'])
+    ->middleware('throttle:messages')
+    ->name('profile.senMessageToUser');
 
 Route::prefix('ajax')->group(function () {
     Route::post('email/check', [EmailCheckController::class, 'checkEmail'])->name('email_available.check');
 
-    Route::post('message/reply', [AjaxMessageController::class, 'replyMessage'])->name('ajax.reply_message');
-    Route::post('message/delete_reply', [AjaxMessageController::class, 'deleteReplyMessage'])->name('ajax.delete_reply_message');
-    Route::post('message/edit', [AjaxMessageController::class, 'editMessage'])->name('ajax.edit_message');
-    Route::post('message/delete', [AjaxMessageController::class, 'deleteMessage'])->name('ajax.delete_message');
+    Route::post('message/reply', [AjaxMessageController::class, 'replyMessage'])
+        ->middleware('throttle:messages')
+        ->name('ajax.reply_message');
+    Route::post('message/delete_reply', [AjaxMessageController::class, 'deleteReplyMessage'])
+        ->middleware('throttle:messages')
+        ->name('ajax.delete_reply_message');
+    Route::post('message/edit', [AjaxMessageController::class, 'editMessage'])
+        ->middleware('throttle:messages')
+        ->name('ajax.edit_message');
+    Route::post('message/delete', [AjaxMessageController::class, 'deleteMessage'])
+        ->middleware('throttle:messages')
+        ->name('ajax.delete_message');
 
-    Route::post('question/add', [QuestionController::class, 'addQuestion'])->name('ajax.question_add');
+    Route::post('question/add', [QuestionController::class, 'addQuestion'])
+        ->middleware('throttle:messages')
+        ->name('ajax.question_add');
 
     Route::post('user/edit_info', [UserAccountController::class, 'userEditInfo'])->name('ajax.userEditInfo');
     Route::post('user/changePassword', [UserAccountController::class, 'userChangePassword'])->name('ajax.userChangePassword');
     Route::post('user/ChangeImage', [UserAccountController::class, 'userChangeImage'])->name('ajax.userChangeImage');
     Route::post('user/EditSettings', [UserAccountController::class, 'userEditSettings'])->name('ajax.userEditSettings');
     Route::post('user/userEditSocial', [UserAccountController::class, 'userEditSocial'])->name('ajax.userEditSocial');
-    Route::post('user/saveNotificationToken', [AjaxNotificationController::class, 'saveNotificationToken'])->name('ajax.saveNotificationToken');
+    Route::post('user/saveNotificationToken', [AjaxNotificationController::class, 'saveNotificationToken'])
+        ->middleware('throttle:notification-token')
+        ->name('ajax.saveNotificationToken');
 
-    Route::post('profile/profileSendVote', [ProfileVoteController::class, 'profileSendVote'])->name('ajax.profileSendVote');
+    Route::post('profile/profileSendVote', [ProfileVoteController::class, 'profileSendVote'])
+        ->middleware('throttle:votes')
+        ->name('ajax.profileSendVote');
 
-    Route::get('site/search', [AjaxSearchController::class, 'siteSearch'])->name('ajax.siteSearch');
+    Route::get('site/search', [AjaxSearchController::class, 'siteSearch'])
+        ->middleware('throttle:search')
+        ->name('ajax.siteSearch');
 });
 
-Route::get('pages/contact', fn () => view('pages.contact'))->name('pages.contact');
-Route::get('pages/privacy-policy', fn () => view('pages.privacy-policy'))->name('pages.privacy-policy');
-Route::get('pages/terms', fn () => view('pages.terms'))->name('pages.terms');
+Route::get('pages/contact', [PageController::class, 'contact'])->name('pages.contact');
+Route::get('pages/privacy-policy', [PageController::class, 'privacyPolicy'])->name('pages.privacy-policy');
+Route::get('pages/terms', [PageController::class, 'terms'])->name('pages.terms');
