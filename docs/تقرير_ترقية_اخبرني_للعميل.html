@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تقرير ترقية منصة اخبرني</title>
+<style>
+  @page { margin: 2cm; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    line-height: 1.7;
+    color: #1a1a1a;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    direction: rtl;
+  }
+  h1 { color: #1565c0; border-bottom: 3px solid #1565c0; padding-bottom: 8px; font-size: 1.8em; }
+  h2 { color: #1976d2; margin-top: 1.5em; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  h3 { color: #424242; }
+  table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95em; }
+  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: right; }
+  th { background: #e3f2fd; font-weight: bold; }
+  tr:nth-child(even) { background: #fafafa; }
+  .meta { background: #f5f5f5; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
+  .meta p { margin: 4px 0; }
+  .ok { color: #2e7d32; font-weight: bold; }
+  .wait { color: #f57c00; font-weight: bold; }
+  .no { color: #c62828; font-weight: bold; }
+  code, pre { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; direction: ltr; display: inline-block; }
+  pre { padding: 12px; overflow-x: auto; white-space: pre-wrap; }
+  ul { padding-right: 20px; }
+  .footer { margin-top: 40px; padding-top: 15px; border-top: 2px solid #1565c0; font-size: 0.9em; color: #666; }
+</style>
+</head>
+<body>
+
+<h1>تقرير ترقية منصة «اخبرني»</h1>
+<h2 style="border:none;color:#666;margin-top:0;">Laravel 5.8 → Laravel 13 | PHP 8.4</h2>
+
+<div class="meta">
+  <p><strong>التاريخ:</strong> 8 أغسطس 2026</p>
+  <p><strong>المشروع:</strong> akbrny2 — منصة الرسائل والاستطلاعات المجهولة</p>
+  <p><strong>الفرع:</strong> upgrade/laravel-13</p>
+  <p><strong>حالة النشر:</strong> <span class="wait">لم يتم النشر على الإنتاج بعد</span></p>
+</div>
+
+<h2>1. ملخص تنفيذي</h2>
+<p>تم تنفيذ ترقية تقنية شاملة للمنصة من <strong>Laravel 5.8</strong> إلى <strong>Laravel 13.24.0</strong> مع <strong>PHP 8.4.24</strong>، مع الحفاظ الكامل على سلوك الموقع من منظور المستخدم والعقود البرمجية (API) كما كانت في الإنتاج.</p>
+
+<table>
+  <tr><th>البند</th><th>الحالة</th></tr>
+  <tr><td>ترقية Laravel</td><td class="ok">✅ مكتمل</td></tr>
+  <tr><td>توافق PHP 8.4</td><td class="ok">✅ مكتمل</td></tr>
+  <tr><td>اختبارات العقود (33 مسار)</td><td class="ok">✅ 33/33 ناجح</td></tr>
+  <tr><td>اختبارات Firebase</td><td class="ok">✅ 9/9 ناجح</td></tr>
+  <tr><td>تحسينات الأداء</td><td class="ok">✅ 5 تحسينات</td></tr>
+  <tr><td>Firebase FCM HTTP v1</td><td class="ok">✅ مكتمل (متزامن)</td></tr>
+  <tr><td>Docker / Redis / Queue</td><td class="no">❌ غير مُستخدم</td></tr>
+  <tr><td>النشر على الإنتاج</td><td class="wait">⏸️ بانتظار الموافقة</td></tr>
+</table>
+
+<h2>2. ما تم إنجازه</h2>
+
+<h3>2.1 ترقية Laravel 13</h3>
+<ul>
+  <li>تحديث هيكل Laravel 13 (bootstrap، artisan، public/index.php)</li>
+  <li>نقل المسارات والمتحكمات والنماذج</li>
+  <li>تحديث composer.json / composer.lock</li>
+  <li>الحفاظ على جميع مسارات API و AJAX كما هي</li>
+</ul>
+
+<h3>2.2 اختبارات ضمان الجودة</h3>
+<ul>
+  <li><strong>33 اختبار عقد</strong> — اختبار لكل مسار API موثّق</li>
+  <li><strong>9 اختبارات Firebase</strong> FCM HTTP v1</li>
+  <li><strong>المجموع: 42 اختبار، 128 assertion — جميعها ناجحة</strong></li>
+</ul>
+
+<h3>2.3 تحسينات الأداء (بدون تغيير السلوك)</h3>
+<table>
+  <tr><th>#</th><th>التحسين</th><th>النتيجة</th></tr>
+  <tr><td>1</td><td>تحميل مسبق لردود المنشورات</td><td>−10 استعلامات على /user</td></tr>
+  <tr><td>2</td><td>دمج استعلامات المنشورات</td><td>−2 استعلامات</td></tr>
+  <tr><td>3</td><td>تخزين مؤقت لعدّاد الرسائل غير المقروءة</td><td>−1 استعلام</td></tr>
+  <tr><td>4a</td><td>إزالة تكرار استعلام التصويت</td><td>−1 لكل استطلاع</td></tr>
+  <tr><td>4b</td><td>دمج COUNT + SELECT للمستخدم</td><td>−1 لكل طلب</td></tr>
+  <tr><td>5</td><td>فهارس قاعدة البيانات</td><td>تحسين عند التوسع</td></tr>
+</table>
+<p><strong>GET /user:</strong> من 18 استعلام (~20 ms) → <strong>5 استعلامات (~10 ms)</strong></p>
+<p><strong>GET /{username}:</strong> من 12 استعلام (~8 ms) → <strong>4 استعلامات (~5 ms)</strong></p>
+
+<h3>2.4 ترقية Firebase (FCM HTTP v1)</h3>
+<ul>
+  <li>استبدال واجهة FCM القديمة (متوقفة من Google) بـ FCM HTTP v1</li>
+  <li>المصادقة: OAuth 2.0 عبر Service Account</li>
+  <li>الإرسال متزامن (بدون Queue) — الحفاظ على السلوك</li>
+  <li>المحتوى: «لديك رسالة جديدة» — كما كان</li>
+  <li>فشل الإشعار لا يمنع حفظ الرسالة</li>
+</ul>
+
+<h3>2.5 فهارس قاعدة البيانات</h3>
+<ul>
+  <li>posts(user_id, is_read, type)</li>
+  <li>answers(user_id, post_id)</li>
+  <li>Migration إضافي آمن — قابل للعكس</li>
+</ul>
+
+<h3>2.6 التوثيق</h3>
+<ul>
+  <li>API_INVENTORY.md — جرد 33 مسار</li>
+  <li>PERFORMANCE.md — قياسات الأداء</li>
+  <li>UPGRADE_AUDIT.md — تدقيق الترقية</li>
+  <li>PRODUCTION_READINESS.md — جاهزية الإنتاج</li>
+</ul>
+
+<h3>2.7 Git</h3>
+<ul>
+  <li>Commit: 469d783 — feat: upgrade project to Laravel 13 and PHP 8.4</li>
+  <li>لم يتم إعادة كتابة تاريخ Git</li>
+  <li>.env وملفات التشغيل المحلية غير مُضمَّنة</li>
+</ul>
+
+<h2>3. ما لم يُنفَّذ (بانتظار موافقة العميل)</h2>
+<table>
+  <tr><th>البند</th><th>السبب</th></tr>
+  <tr><td>النشر على الإنتاج</td><td>خارج نطاق هذه المرحلة</td></tr>
+  <tr><td>Queue لـ Firebase</td><td>الحفاظ على السلوك المتزامن</td></tr>
+  <tr><td>Redis / Docker</td><td>مستبعد حسب المواصفات</td></tr>
+  <tr><td>تحسين البحث</td><td>قد يغيّر النتائج — يحتاج موافقة</td></tr>
+</table>
+
+<h2>4. متطلبات الإنتاج (قبل النشر)</h2>
+<h3>4.1 متغيرات البيئة</h3>
+<pre>APP_ENV=production
+APP_DEBUG=false
+APP_KEY=&lt;مفتاح فريد&gt;
+FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY
+DB_* / MAIL_*</pre>
+
+<h3>4.2 الخادم</h3>
+<ul>
+  <li>Nginx — جذر المستند: public/</li>
+  <li>PHP 8.4-FPM</li>
+  <li>MySQL 8</li>
+  <li>OPcache مفعّل</li>
+  <li>نسخة احتياطية قبل migrate</li>
+</ul>
+
+<h2>5. الأمان</h2>
+<ul>
+  <li>مفتاح FCM القديم: تم إلغاؤه (Revoke)</li>
+  <li>الكود الحالي: يستخدم env فقط — لا credentials في المصدر</li>
+  <li>.env: غير مُتتبَّع في Git</li>
+</ul>
+
+<h2>6. البيئة التقنية</h2>
+<table>
+  <tr><th>المكوّن</th><th>الإصدار</th></tr>
+  <tr><td>Laravel</td><td>13.24.0</td></tr>
+  <tr><td>PHP</td><td>8.4.24</td></tr>
+  <tr><td>MySQL</td><td>8</td></tr>
+  <tr><td>Docker / Redis</td><td>غير مستخدم</td></tr>
+</table>
+
+<h2>7. الخلاصة</h2>
+<ol>
+  <li>✅ الحفاظ على سلوك الموقع والـ API</li>
+  <li>✅ 42 اختباراً — جميعها ناجحة</li>
+  <li>✅ تحسين الأداء (~72% تقليل استعلامات لوحة المستخدم)</li>
+  <li>✅ إصلاح مسار الإشعارات FCM HTTP v1</li>
+  <li>✅ توثيق شامل للإنتاج</li>
+  <li>⏸️ لم يتم النشر — جاهز للمرحلة التالية</li>
+</ol>
+
+<div class="footer">
+  <p><strong>المستودع:</strong> github.com/C0derM0hamed/akbrny2 — فرع upgrade/laravel-13</p>
+  <p><strong>Commit:</strong> 469d783</p>
+</div>
+
+</body>
+</html>
