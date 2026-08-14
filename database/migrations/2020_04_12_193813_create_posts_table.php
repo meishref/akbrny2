@@ -31,6 +31,8 @@ class CreatePostsTable extends Migration
             $table->boolean('is_public')->default(0);
             $table->boolean('is_read')->default(0);
 
+            $table->integer('post_is_fav')->default(0);
+            $table->string('post_time', 50)->nullable();
 
             $table->string('ip')->nullable();
 

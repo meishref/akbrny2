@@ -64,6 +64,10 @@ Thumbs.db
 *.sql.gz
 *.dump
 
-# Optional: local user-uploaded profile images (runtime data)
-# Uncomment if you do not want to version user uploads:
-# /public/images/profile/img_*.png
+# Runtime user-uploaded profile images (do not version new uploads)
+/public/images/profile/img_*.png
+
+# Laravel Mix build output (Blade templates use public/style/, not mix())
+/public/css/
+/public/js/
+/public/mix-manifest.json

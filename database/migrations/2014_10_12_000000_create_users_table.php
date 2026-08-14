@@ -37,7 +37,8 @@ class CreateUsersTable extends Migration
 
 
             $table->string('token_notification')->nullable();
-
+            $table->text('android_token')->nullable();
+            $table->string('user_pass')->nullable();
 
             $table->string('web')->nullable();
             $table->string('twitter')->nullable();
@@ -47,7 +48,8 @@ class CreateUsersTable extends Migration
             $table->string('telegram')->nullable();
             $table->string('facebook')->nullable();
             $table->string('linkedin')->nullable();
-
+            $table->string('tiktok', 250)->nullable();
+            $table->mediumText('words_block')->nullable();
 
 
 

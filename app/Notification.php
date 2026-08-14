@@ -4,25 +4,26 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Answer extends Model
+/**
+ * FCM / push device tokens (production table: notifications).
+ *
+ * Not Laravel's Illuminate\Notifications\DatabaseNotification.
+ */
+class Notification extends Model
 {
+    protected $table = 'notifications';
+
     protected $fillable = [
-        'post_id',
         'user_id',
-        'body',
+        'token',
+        'device',
     ];
 
     protected function casts(): array
     {
         return [
-            'post_id' => 'integer',
             'user_id' => 'integer',
         ];
-    }
-
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
     }
 
     public function user()

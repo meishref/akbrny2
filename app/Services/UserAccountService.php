@@ -79,7 +79,7 @@ class UserAccountService
 
     public function updateSocialLinks(User $user, array $links): array
     {
-        foreach (['web', 'twitter', 'instagram', 'youtube', 'snapchat', 'telegram', 'facebook', 'linkedin'] as $field) {
+        foreach (['web', 'twitter', 'instagram', 'youtube', 'snapchat', 'telegram', 'facebook', 'linkedin', 'tiktok'] as $field) {
             $user->{$field} = $links[$field] ?? null;
         }
 

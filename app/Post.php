@@ -6,10 +6,37 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    /**
+     * Columns aligned with production metadata (posts table).
+     *
+     * @var list<string>
+     */
     protected $fillable = [
-        'user_id', 'body', 'type', 'is_public', 'is_read', 'is_active',
-        'answer1', 'answer2', 'answer3', 'answer4', 'ip',
+        'type',
+        'body',
+        'answer1',
+        'answer2',
+        'answer3',
+        'answer4',
+        'is_public',
+        'is_read',
+        'post_is_fav',
+        'post_time',
+        'ip',
+        'is_active',
+        'user_id',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => 'integer',
+            'is_public' => 'boolean',
+            'is_read' => 'boolean',
+            'is_active' => 'boolean',
+            'post_is_fav' => 'integer',
+        ];
+    }
 
     public function user()
     {
